@@ -1,0 +1,54 @@
+include Irvine32.inc
+
+
+.386
+.data
+str1 BYTE "Enter a number: ", 0
+str2 BYTE "The numbers in the array are: ", 0
+myArray DWORD 10 DUP(?)
+
+
+;Allow the user to type ten integers (stored as DWORDs) (USE LOOPING) store each 
+;element in an array called myArray. When finished storing the integers, 
+;loop through and print each element of the myArray.
+
+.code
+main proc
+
+
+mov ebx, 0
+mov ecx, 10
+mov edx, OFFSET str1 ; put string one into edx ;move first string into edx
+
+L1: ;cmp ebx, ecx  im not sure what this does but i think stops the loop... 
+call WriteString ;show enter a number
+call ReadInt ;get a number from the user
+mov myArray[ebx], eax
+add ebx, 4
+loop L1  ; okay hopefully that put the numbers inside the array...
+
+
+; now lets make a loop to print these numbers....
+
+mov ebx, 0
+mov ecx, 10
+
+mov edx, OFFSET str2  ;Now we moving the string for total items
+call WriteString ;show string
+
+
+L2: ;cmp ebx, ecx ; start second loop
+
+mov eax, myArray[ebx] ;move first item in array to eax
+call crlf ;didnt know what this was i do now lol
+call WriteInt ;print that item
+add ebx, 4 ;increase counter
+loop L2 ;end of second loop
+
+call crlf
+
+call waitmsg
+
+invoke ExitProcess, 0
+main endp
+end main
